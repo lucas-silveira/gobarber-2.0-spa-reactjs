@@ -4,8 +4,7 @@ import { FiLogIn, FiMail, FiLock } from 'react-icons/fi';
 import logoImage from '../../assets/img/logo.svg';
 import { Container, ContentLeft, ContentRight } from './styles';
 
-import Input from '../../components/Input';
-import Button from '../../components/Button';
+import { Input, Button } from '../../components';
 
 const SignIn: React.FC = () => (
   <Container>
