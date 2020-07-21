@@ -5,10 +5,9 @@ import { Form } from '@unform/web';
 import * as Yup from 'yup';
 
 import logoImage from '../../assets/img/logo.svg';
-import { Container, ContentLeft, ContentRight } from './styles';
-
 import getValidationErrors from '../../utils/getValidationErrors';
 import { Input, Button } from '../../components';
+import { Container, ContentLeft, ContentRight } from './styles';
 
 type submitData = {
   name: string;
