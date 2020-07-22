@@ -1,21 +1,62 @@
-import React, { createContext, useCallback } from 'react';
+import React, { createContext, useState, useCallback } from 'react';
+import api from '../services/api';
 
 type AuthContextData = {
-  name: string;
-  signIn(): void;
+  state: Omit<AuthState, 'token'>;
+  signIn(dto: SignInDTO): Promise<void>;
 };
+
+type AuthState = {
+  token: string;
+  user: IUser;
+};
+
+type SignInDTO = {
+  email: string;
+  password: string;
+};
+
+type HttpAuthResponse = {
+  token: string;
+  user: IUser;
+};
+
+interface IUser {
+  id: string;
+  name: string;
+  email: string;
+  avatar: string;
+}
 
 export const AuthContext = createContext<AuthContextData>(
   {} as AuthContextData,
 );
 
 export const AuthProvider: React.FC = ({ children }) => {
-  const signIn = useCallback(() => {
-    console.log('sign in');
+  const [authState, setAuthState] = useState<AuthState>(() => {
+    const token = localStorage.getItem('@gobarber:token');
+    const user = localStorage.getItem('@gobarber:user');
+
+    if (token && user) return { token, user: JSON.parse(user) };
+    return {} as AuthState;
+  });
+
+  const signIn = useCallback(async ({ email, password }: SignInDTO) => {
+    const response = await api.post<HttpAuthResponse>('/authentication', {
+      email,
+      password,
+    });
+
+    const { token, user } = response.data;
+
+    localStorage.setItem('@gobarber:token', token);
+    localStorage.setItem('@gobarber:user', JSON.stringify(user));
+
+    setAuthState({ token, user });
   }, []);
 
   return (
-    <AuthContext.Provider value={{ name: 'Lucas', signIn }}>
+    <AuthContext.Provider value={{ state: { user: authState.user }, signIn }}>
       {children}
     </AuthContext.Provider>
   );

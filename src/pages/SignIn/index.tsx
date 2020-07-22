@@ -35,7 +35,9 @@ const SignIn: React.FC = () => {
           abortEarly: false,
         });
 
-        signIn();
+        const { email, password } = data;
+
+        signIn({ email, password });
       } catch (err) {
         const errors = getValidationErrors(err);
 
