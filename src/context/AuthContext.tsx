@@ -4,6 +4,7 @@ import api from '../services/api';
 type AuthContextData = {
   state: Omit<AuthState, 'token'>;
   signIn(dto: SignInDTO): Promise<void>;
+  signOut(): void;
 };
 
 type AuthState = {
@@ -53,8 +54,17 @@ export const AuthProvider: React.FC = ({ children }) => {
     setAuthState({ token, user });
   }, []);
 
+  const signOut = useCallback(() => {
+    localStorage.removeItem('@gobarber:token');
+    localStorage.removeItem('@gobarber:user');
+
+    setAuthState({} as AuthState);
+  }, []);
+
   return (
-    <AuthContext.Provider value={{ state: { user: authState.user }, signIn }}>
+    <AuthContext.Provider
+      value={{ state: { user: authState.user }, signIn, signOut }}
+    >
       {children}
     </AuthContext.Provider>
   );
