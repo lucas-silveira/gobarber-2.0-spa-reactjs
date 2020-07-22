@@ -1,4 +1,4 @@
-import React, { createContext, useState, useCallback } from 'react';
+import React, { createContext, useState, useCallback, useContext } from 'react';
 import api from '../services/api';
 
 type AuthContextData = {
@@ -28,9 +28,7 @@ interface IUser {
   avatar: string;
 }
 
-export const AuthContext = createContext<AuthContextData>(
-  {} as AuthContextData,
-);
+const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC = ({ children }) => {
   const [authState, setAuthState] = useState<AuthState>(() => {
@@ -60,4 +58,12 @@ export const AuthProvider: React.FC = ({ children }) => {
       {children}
     </AuthContext.Provider>
   );
+};
+
+export const useAuth = (): AuthContextData => {
+  const context = useContext(AuthContext);
+
+  if (!context) throw new Error('useAuth must be used inside an AuthProvider');
+
+  return context;
 };
