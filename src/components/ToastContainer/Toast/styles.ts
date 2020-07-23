@@ -1,5 +1,5 @@
 import styled, { css } from 'styled-components';
-import { animated } from 'react-spring';
+import { motion } from 'framer-motion';
 
 type ToastProps = {
   type: ToastTypes;
@@ -23,7 +23,7 @@ const toastTypeVariations = {
   `,
 };
 
-export const Container = styled(animated.div) <ToastProps>`
+export const Container = styled(motion.div) <ToastProps>`
   position: relative;
   display: flex;
   width: 360px;

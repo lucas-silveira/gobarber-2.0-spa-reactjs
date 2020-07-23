@@ -11,7 +11,7 @@ import { useToast } from '../../../context/hooks';
 
 import { Container } from './styles';
 
-type ToastProps = { style: Record<string, unknown> } & Required<IToastMessage>;
+type ToastProps = Required<IToastMessage>;
 
 const TIME_TO_CLOSE = 3000;
 
@@ -21,13 +21,7 @@ const icons = {
   success: <FiCheckCircle size={24} />,
 };
 
-const Toast: React.FC<ToastProps> = ({
-  style,
-  id,
-  type,
-  title,
-  description,
-}) => {
+const Toast: React.FC<ToastProps> = ({ id, type, title, description }) => {
   const { removeToast } = useToast();
 
   useEffect(() => {
@@ -42,7 +36,13 @@ const Toast: React.FC<ToastProps> = ({
   }, [id, removeToast]);
 
   return (
-    <Container type={type} hasDescription={!!description} style={style}>
+    <Container
+      type={type}
+      hasDescription={!!description}
+      initial={{ right: '-120%', opacity: 0 }}
+      animate={{ right: '0%', opacity: 1 }}
+      exit={{ right: '-120%', opacity: 0 }}
+    >
       {icons[type]}
       <div>
         <strong>{title}</strong>
