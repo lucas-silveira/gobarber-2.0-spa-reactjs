@@ -2,12 +2,12 @@ import React, { createContext, useState, useCallback, useContext } from 'react';
 import api from '../services/api';
 
 type AuthContextData = {
-  state: Omit<AuthState, 'token'>;
+  user: IUser;
   signIn(dto: SignInDTO): Promise<void>;
   signOut(): void;
 };
 
-type AuthState = {
+type AuthData = {
   token: string;
   user: IUser;
 };
@@ -32,12 +32,12 @@ interface IUser {
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC = ({ children }) => {
-  const [authState, setAuthState] = useState<AuthState>(() => {
+  const [authData, setAuthData] = useState<AuthData>(() => {
     const token = localStorage.getItem('@gobarber:token');
     const user = localStorage.getItem('@gobarber:user');
 
     if (token && user) return { token, user: JSON.parse(user) };
-    return {} as AuthState;
+    return {} as AuthData;
   });
 
   const signIn = useCallback(async ({ email, password }: SignInDTO) => {
@@ -45,25 +45,24 @@ export const AuthProvider: React.FC = ({ children }) => {
       email,
       password,
     });
+
     const { token, user } = response.data;
 
     localStorage.setItem('@gobarber:token', token);
     localStorage.setItem('@gobarber:user', JSON.stringify(user));
 
-    setAuthState({ token, user });
+    setAuthData({ token, user });
   }, []);
 
   const signOut = useCallback(() => {
     localStorage.removeItem('@gobarber:token');
     localStorage.removeItem('@gobarber:user');
 
-    setAuthState({} as AuthState);
+    setAuthData({} as AuthData);
   }, []);
 
   return (
-    <AuthContext.Provider
-      value={{ state: { user: authState.user }, signIn, signOut }}
-    >
+    <AuthContext.Provider value={{ user: authData.user, signIn, signOut }}>
       {children}
     </AuthContext.Provider>
   );
