@@ -1,13 +1,7 @@
-import styled from 'styled-components';
+import styled, { keyframes } from 'styled-components';
 import { shade } from 'polished';
 
 import barbershopBg from '../../assets/img/barbershop-bg.png';
-
-export const ContentLeft = styled.div`
-  flex: 1;
-  background: url(${barbershopBg}) no-repeat center;
-  background-size: cover;
-`;
 
 export const Container = styled.div`
   display: flex;
@@ -15,13 +9,35 @@ export const Container = styled.div`
   height: 100vh;
 `;
 
+export const ContentLeft = styled.div`
+  flex: 1;
+  background: url(${barbershopBg}) no-repeat center;
+  background-size: cover;
+`;
+
 export const ContentRight = styled.div`
+  display: flex;
+  place-content: center;
+  width: 100%;
+  max-width: 700px;
+`;
+
+const appearFromRight = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+`;
+
+export const AnimationContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: center;
-  width: 100%;
-  max-width: 700px;
+  animation: ${appearFromRight} 1s;
 
   form {
     width: 340px;
@@ -49,5 +65,16 @@ export const ContentRight = styled.div`
         margin-right: 16px;
       }
     }
+  }
+`;
+
+const appearFromLeft = keyframes`
+  from {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
   }
 `;
