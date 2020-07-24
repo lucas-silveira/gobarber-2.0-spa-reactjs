@@ -1,11 +1,11 @@
 import { ICreateUser } from './CreateUser.interface';
 import User from '../../entities/User';
-import { IAPICreateUser } from '../../protocols/api/APICreateUser.interface';
+import { ICreateUserAPI } from '../../protocols/api/APICreateUser.interface';
 
 class CreateUser implements ICreateUser {
-  private readonly api: IAPICreateUser;
+  private readonly api: ICreateUserAPI;
 
-  constructor(api: IAPICreateUser) {
+  constructor(api: ICreateUserAPI) {
     this.api = api;
   }
 

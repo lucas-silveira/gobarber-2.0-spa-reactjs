@@ -1,5 +1,5 @@
 import { IUser } from '../../entities/User.interface';
 
-export interface IAPICreateUser {
-  call(user: IUser): Promise<any>;
+export interface ICreateUserAPI {
+  call<T extends any>(user: IUser): Promise<T>;
 }

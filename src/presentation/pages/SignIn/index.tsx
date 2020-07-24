@@ -32,16 +32,6 @@ const SignIn: React.FC = () => {
     async (data: submitData): Promise<void> => {
       try {
         formRef.current?.setErrors({});
-        const schema = Yup.object().shape({
-          email: Yup.string()
-            .email('Digite um e-mail válido')
-            .required('E-mail obrigatório'),
-          password: Yup.string().required('Senha obrigatória'),
-        });
-
-        await schema.validate(data, {
-          abortEarly: false,
-        });
 
         const { email, password } = data;
 

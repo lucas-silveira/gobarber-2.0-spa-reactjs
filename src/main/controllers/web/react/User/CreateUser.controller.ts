@@ -5,11 +5,14 @@ import { ICreateUserValidator } from '../../../../../domain/protocols/validator/
 class CreateUserController implements ICreateUserController {
   private readonly createUser: ICreateUser;
 
-  private readonly validator: ICreateUserValidator;
+  private readonly createUserValidator: ICreateUserValidator;
 
-  constructor(createUser: ICreateUser, validator: ICreateUserValidator) {
+  constructor(
+    createUser: ICreateUser,
+    createUserValidator: ICreateUserValidator,
+  ) {
     this.createUser = createUser;
-    this.validator = validator;
+    this.createUserValidator = createUserValidator;
   }
 
   async handle({
@@ -17,7 +20,7 @@ class CreateUserController implements ICreateUserController {
     email,
     password,
   }: ICreateUserController.Input): Promise<void> {
-    await this.validator.validate({ name, email, password });
+    await this.createUserValidator.validate({ name, email, password });
     await this.createUser.execute({ name, email, password });
   }
 }

@@ -1,12 +1,12 @@
 import * as Yup from 'yup';
 import { ICreateUserValidator } from '../../../domain/protocols/validator/CreateUserValidator.interface';
 
-class YupValidatorAdapter implements ICreateUserValidator {
+class YupCreateUserValidatorAdapter implements ICreateUserValidator {
   async validate({
     name,
     email,
     password,
-  }: ICreateUserValidator.Input): Promise<void | Error> {
+  }: ICreateUserValidator.Input): Promise<void> {
     const schema = Yup.object().shape({
       name: Yup.string().required('Nome obrigatório'),
       email: Yup.string()
@@ -24,4 +24,4 @@ class YupValidatorAdapter implements ICreateUserValidator {
   }
 }
 
-export default YupValidatorAdapter;
+export default YupCreateUserValidatorAdapter;

@@ -1,15 +1,15 @@
 import React, { createContext, useState, useCallback, useContext } from 'react';
-import api from '../../services/api/http/httpConfig';
+
+import AuthControllerFactory from '../../main/controllers/web/react/Auth/AuthController.factory';
+import { IAuth } from '../../domain/entities/Auth.interface';
+import { IUser } from '../../domain/entities/User.interface';
+
+const { createAuth, getAuth, removeAuth } = AuthControllerFactory();
 
 type AuthContextData = {
-  user: IUser;
+  user: Omit<IUser, 'password'>;
   signIn(dto: SignInDTO): Promise<void>;
   signOut(): void;
-};
-
-type AuthData = {
-  token: string;
-  user: IUser;
 };
 
 type SignInDTO = {
@@ -17,48 +17,28 @@ type SignInDTO = {
   password: string;
 };
 
-type HttpAuthResponse = {
-  token: string;
-  user: IUser;
-};
-
-interface IUser {
-  id: string;
-  name: string;
-  email: string;
-  avatar: string;
-}
-
 const AuthContext = createContext<AuthContextData>({} as AuthContextData);
 
 export const AuthProvider: React.FC = ({ children }) => {
-  const [authData, setAuthData] = useState<AuthData>(() => {
-    const token = localStorage.getItem('@gobarber:token');
-    const user = localStorage.getItem('@gobarber:user');
+  const [authData, setAuthData] = useState<IAuth>(() => {
+    const { token, user } = getAuth.handle();
 
-    if (token && user) return { token, user: JSON.parse(user) };
-    return {} as AuthData;
+    if (token && user) return { token, user };
+    return {} as IAuth;
   });
 
   const signIn = useCallback(async ({ email, password }: SignInDTO) => {
-    const response = await api.post<HttpAuthResponse>('/authentication', {
-      email,
-      password,
-    });
+    const response = await createAuth.handle({ email, password });
 
-    const { token, user } = response.data;
-
-    localStorage.setItem('@gobarber:token', token);
-    localStorage.setItem('@gobarber:user', JSON.stringify(user));
+    const { token, user } = response;
 
     setAuthData({ token, user });
   }, []);
 
   const signOut = useCallback(() => {
-    localStorage.removeItem('@gobarber:token');
-    localStorage.removeItem('@gobarber:user');
+    removeAuth.handle();
 
-    setAuthData({} as AuthData);
+    setAuthData({} as IAuth);
   }, []);
 
   return (

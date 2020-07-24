@@ -1,5 +1,5 @@
 export interface ICreateUserValidator {
-  validate(data: ICreateUserValidator.Input): Promise<void | Error>;
+  validate(data: ICreateUserValidator.Input): Promise<void>;
 }
 
 export namespace ICreateUserValidator {
