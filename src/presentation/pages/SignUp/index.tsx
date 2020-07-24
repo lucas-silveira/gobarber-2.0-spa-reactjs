@@ -5,7 +5,7 @@ import { Form } from '@unform/web';
 import * as Yup from 'yup';
 import { Link, useHistory } from 'react-router-dom';
 
-import api from '../../services/api';
+import UserControllerFactory from '../../../main/controllers/React/User/UserController.factory';
 import { useToast } from '../../context/hooks';
 
 import logoImage from '../../assets/img/logo.svg';
@@ -24,6 +24,8 @@ type submitData = {
   password: string;
 };
 
+const { createUser } = UserControllerFactory();
+
 const SignUp: React.FC = () => {
   const formRef = useRef<FormHandles>(null);
   const { addToast } = useToast();
@@ -33,19 +35,7 @@ const SignUp: React.FC = () => {
     async (data: submitData): Promise<void> => {
       try {
         formRef.current?.setErrors({});
-        const schema = Yup.object().shape({
-          name: Yup.string().required('Nome obrigatório'),
-          email: Yup.string()
-            .email('Digite um e-mail válido')
-            .required('E-mail obrigatório'),
-          password: Yup.string().min(6, 'No mínimo 6 dígitos'),
-        });
-
-        await schema.validate(data, {
-          abortEarly: false,
-        });
-        await api.post('/users', data);
-
+        await createUser.handle(data);
         addToast({
           type: 'success',
           title: 'Cadastro realizado com sucesso',
