@@ -1,6 +1,6 @@
 import { ICreateUserController } from './CreateUserController.interface';
-import { ICreateUser } from '../../../../domain/usecases/User/CreateUser.interface';
-import { ICreateUserValidator } from '../../../../domain/protocols/validator/CreateUserValidator.interface';
+import { ICreateUser } from '../../../../../domain/usecases/User/CreateUser.interface';
+import { ICreateUserValidator } from '../../../../../domain/protocols/validator/CreateUserValidator.interface';
 
 class CreateUserController implements ICreateUserController {
   private readonly createUser: ICreateUser;

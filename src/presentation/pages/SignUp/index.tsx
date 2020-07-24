@@ -5,7 +5,7 @@ import { Form } from '@unform/web';
 import * as Yup from 'yup';
 import { Link, useHistory } from 'react-router-dom';
 
-import UserControllerFactory from '../../../main/controllers/React/User/UserController.factory';
+import UserControllerFactory from '../../../main/controllers/web/react/User/UserController.factory';
 import { useToast } from '../../context/hooks';
 
 import logoImage from '../../assets/img/logo.svg';

@@ -1,8 +1,8 @@
 import CreateUserController from './CreateUser.controller';
-import CreateUser from '../../../../domain/usecases/User/CreateUser.usecase';
-import YupCreateUserValidator from '../../../../utils/validator/User/YupCreateUserValidator.adapter';
+import CreateUser from '../../../../../domain/usecases/User/CreateUser.usecase';
+import YupCreateUserValidator from '../../../../../utils/validator/User/YupCreateUserValidator.adapter';
 import IUserControllerFactory from './UserControllerFactory.interface';
-import AxiosHttpCreateUserAdapter from '../../../../services/api/http/User/AxiosHttpCreateUser.adapter';
+import AxiosHttpCreateUserAdapter from '../../../../../services/api/http/User/AxiosHttpCreateUser.adapter';
 
 const UserControllerFactory = (): IUserControllerFactory => {
   const axiosHttpCreateUserAdapter = new AxiosHttpCreateUserAdapter();
