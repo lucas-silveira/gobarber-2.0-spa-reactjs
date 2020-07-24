@@ -1,5 +1,5 @@
 import * as Yup from 'yup';
-import { ICreateUserValidator } from './CreateUserValidator.interface';
+import { ICreateUserValidator } from '../../../domain/protocols/validator/CreateUserValidator.interface';
 
 class YupValidatorAdapter implements ICreateUserValidator {
   async validate({

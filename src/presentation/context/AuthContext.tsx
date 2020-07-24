@@ -1,5 +1,5 @@
 import React, { createContext, useState, useCallback, useContext } from 'react';
-import api from '../../services/apis/http/httpConfig';
+import api from '../../services/api/http/httpConfig';
 
 type AuthContextData = {
   user: IUser;

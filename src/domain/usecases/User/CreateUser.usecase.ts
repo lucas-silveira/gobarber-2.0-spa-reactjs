@@ -1,6 +1,6 @@
 import { ICreateUser } from './CreateUser.interface';
 import User from '../../entities/User';
-import { IAPICreateUser } from '../../../services/apis/APICreateUser.interface';
+import { IAPICreateUser } from '../../protocols/api/APICreateUser.interface';
 
 class CreateUser implements ICreateUser {
   private readonly api: IAPICreateUser;
